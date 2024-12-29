@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+canvas {
+    border: 2px solid #333;
+    background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+    width: 90vw; /* Responsive width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    font-size: 24px;
+    margin: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}

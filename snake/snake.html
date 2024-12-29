@@ -3,24 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake</title>
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<style>
-   canvas {
-    border: 2px solid #333;
-    background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
-    margin: 100px auto;
-    display: block;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #e0e0e0;
-}
-</style>
 <body>
     <div id="score" style="text-align: center; font-size: 24px;">Score: 0</div>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <script src="../snake/snake.js"></script>
+    <canvas id="gameCanvas"></canvas>
+    <div class="controls">
+        <button id="up">↑</button>
+        <button id="left">←</button>
+        <button id="down">↓</button>
+        <button id="right">→</button>
+    </div>
+    <script src="snake.js"></script>
 </body>
 </html>

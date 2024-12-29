@@ -1,6 +1,13 @@
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
 
+// Set canvas size based on the window size
+function resizeCanvas() {
+    const size = Math.min(window.innerWidth * 0.9, window.innerHeight * 0.8);
+    canvas.width = size;
+    canvas.height = size;
+}
+
 let snake = [{ x: 10, y: 10 }];
 let direction = { x: 0, y: 0 };
 let food = { x: 15, y: 15 };
@@ -8,14 +15,13 @@ let score = 0;
 let speed = 100; // Initial speed
 let gameLoop;
 
-const eatSound = new Audio('../snake/Eating sound effect LUCAS ARPON TV.mp3');
-const gameOverSound = new Audio('../snake/Game Over sound effect.mp3');
+const eatSound = new Audio('path/to/eat-sound.mp3');
+const gameOverSound = new Audio('path/to/game-over-sound.mp3');
 
 function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawSnake();
     drawFood();
-    drawObstacles();
     updateSnakePosition();
     checkCollision();
     updateScore();
@@ -24,21 +30,13 @@ function draw() {
 function drawSnake() {
     context.fillStyle = 'green';
     snake.forEach(segment => {
-        context.fillRect(segment.x * 20, segment.y * 20, 18, 18);
+        context.fillRect(segment.x * (canvas.width / 20), segment.y * (canvas.height / 20), (canvas.width / 20) - 2, (canvas.height / 20) - 2);
     });
 }
 
 function drawFood() {
     context.fillStyle = 'orange';
-    context.fillRect(food.x * 20, food.y * 20, 18, 18);
-}
-
-function drawObstacles() {
-    const obstacles = [{ x: 5, y: 5 }, { x: 10, y: 15 }]; // Example obstacles
-    context.fillStyle = 'red';
-    obstacles.forEach(obstacle => {
-        context.fillRect(obstacle.x * 20, obstacle.y * 20, 20, 20);
-    });
+    context.fillRect(food.x * (canvas.width / 20), food.y * (canvas.height / 20), (canvas.width / 20) - 2, (canvas.height / 20) - 2);
 }
 
 function updateSnakePosition() {
@@ -48,7 +46,6 @@ function updateSnakePosition() {
     if (head.x === food.x && head.y === food.y) {
         eatFood();
         spawnFood();
-        increaseDifficulty();
     } else {
         snake.pop();
     }
@@ -64,17 +61,11 @@ function eatFood() {
     score++;
 }
 
-function increaseDifficulty() {
-    if (score % 5 === 0 && score > 0) {
-        speed = Math.max(50, speed - 10); // Increase speed every 5 points
-    }
-}
-
 function checkCollision() {
     const head = snake[0];
 
     // Check wall collision
-    if (head.x < 0 || head.x >= canvas.width / 20 || head.y < 0 || head.y >= canvas.height / 20) {
+    if (head.x < 0 || head.x >= canvas.width / (canvas.width / 20) || head.y < 0 || head.y >= canvas.height / (canvas.height / 20)) {
         gameOver();
     }
 
@@ -113,6 +104,24 @@ document.addEventListener('keydown', (event) => {
             break;
     }
 });
+
+// Touch controls for mobile
+document.getElementById('up').addEventListener('click', () => {
+    if (direction.y === 0) direction = { x: 0, y: -1 };
+});
+document.getElementById('down').addEventListener('click', () => {
+    if (direction.y === 0) direction = { x: 0, y: 1 };
+});
+document.getElementById('left').addEventListener('click', () => {
+    if (direction.x === 0) direction = { x: -1, y: 0 };
+});
+document.getElementById('right').addEventListener('click', () => {
+    if (direction.x === 0) direction = { x: 1, y: 0 };
+});
+
+// Resize canvas on load and window resize
+window.addEventListener('load', resizeCanvas);
+window.addEventListener('resize', resizeCanvas);
 
 function startGame() {
     gameLoop = setInterval(draw, speed);
